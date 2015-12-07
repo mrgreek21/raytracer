@@ -1,0 +1,28 @@
+*** PLEASE NOTE THAT THE REPORT FOR PART 2 IS LOCATED IN THE monopoly FOLDER ***
+
+Part 1 Report - Ray Tracer
+
+We first implemented the direction vector of the ray using the imagePlane 
+given as one point of the vector and (0, 0, 0) as the origin. after that, 
+we normalize the vectors and proceed to calculate the intersection points. 
+
+Whenever switching into the model's space we transform everything needed into 
+that space. However since we needed the original ray preserved for calculating 
+shading, we use a copy in the intersection method. The intersection of the plane 
+is calculated by simply combining the parametric equation for a plane and the vector 
+and solving for the t value, which is the distance from the ray to the point. We then 
+ensure that the point is inside the given boundaries of the plane.
+
+For calculating the intersection with the sphere we used projections and calculated 
+different smaller lengths that gave us clues as to what the t value of the closest 
+intersection would be. We then use the normal as simply the vector from the origin of 
+sphere to the point.
+
+All normals were transformed back to world space using the inverse transpose of the 
+matrix that goes from world to model space. 
+
+Shading was then done using the phong model, and image colours were clamped so they 
+stayed in bounds. We include images of the different scenes requested, but the code 
+that we are handing in maintains the phong shading model.
+
+ 

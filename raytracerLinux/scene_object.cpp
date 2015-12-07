@@ -35,9 +35,6 @@ bool UnitSquare::intersect( Ray3D& ray, const Matrix4x4& worldToModel,
 
 	// points on the plane
 	Point3D p1 = Point3D(0.5, 0.5 ,0);
-	Point3D p2 = Point3D(-0.5, 0.5 ,0);
-	Point3D p3 = Point3D(-0.5, -0.5 ,0);
-	Point3D p4 = Point3D(0.5, -0.5 ,0);
 
 	Ray3D rayCopy = ray;
 
@@ -67,26 +64,18 @@ bool UnitSquare::intersect( Ray3D& ray, const Matrix4x4& worldToModel,
 		// intersection with plane!
 
 		// make sure there isn't already a t_value that is closer to the ray's origin
-		//if ((ray.intersection.t_value &&  t < ray.intersection.t_value) || !ray.intersection.t_value) {
-			//std::cout << !ray.intersection.t_value << "\n";
-		//std::cout << t << "\n";
-			Point3D interPoint = rayCopy.origin + t*rayCopy.dir;
+		Point3D interPoint = rayCopy.origin + t*rayCopy.dir;
 
-			// check if intersection is inside the given boundaries or outside
-			//Vector3D planeToRayOrigin = rayCopy.origin - interPoint;
+		if (interPoint[0] >= -0.5 && interPoint[0] <= 0.5 && interPoint[1] >= -0.5 && interPoint[1] <= 0.5) {
+			// inside!
+			ray.intersection.t_value = t;
+			ray.intersection.point = modelToWorld * interPoint;
 
-			if (interPoint[0] >= -0.5 && interPoint[0] <= 0.5 && interPoint[1] >= -0.5 && interPoint[1] <= 0.5) {
-				//std::cout << t << "\n";
-				// inside!
-				ray.intersection.t_value = t;
-				ray.intersection.point = modelToWorld * interPoint;
-
-				// transform the normal to world coords
-				ray.intersection.normal = transNorm(worldToModel, -n);
-				ray.intersection.normal.normalize();
-				ray.intersection.none = false;
-			}
-		//}
+			// transform the normal to world coords
+			ray.intersection.normal = transNorm(worldToModel, -n);
+			ray.intersection.normal.normalize();
+			ray.intersection.none = false;
+		}
 	}
 
 	return !ray.intersection.none;
